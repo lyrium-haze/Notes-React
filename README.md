@@ -10,4 +10,5 @@
 <li>Move note to another sublect</li>
 <li>Delete all notes at once</li>
 <li>Changing font size (?)</li>
+<li>Notification system</>
 </ul>
