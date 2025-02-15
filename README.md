@@ -4,6 +4,7 @@
 <li>Ability to add To-Do list in a note</li>
 <li>Light/Dark theme</li>
 <li>Creating subjects and switching between them</li>
+<li>Notes can have title</li>
 </ul>
 <h5>About to do:</h5>
 <ul>
