@@ -1,0 +1,18 @@
+html {
+    --bg-color: #f2f3f4;
+    --main-color: #fff;
+    --text-color: #333;
+    --border-color: #e0e0e0;
+    --accent-color: var(--text-color);
+    --hover-color: #ccc;
+    --el-color: var(--border-color);
+  }
+  .dark-theme {
+    --bg-color: #565656;
+    --main-color: #454545;
+    --text-color: #fff;
+    --border-color: #3a3944;
+    --accent-color: var(--main-color);
+    --hover-color: #5e5e5e;
+    --el-color: dimgray;
+  }
