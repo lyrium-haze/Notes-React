@@ -44,33 +44,38 @@ let loadHeandler = function() {
     console.log("Error opening");
     resolve ("");
   };
-open.onsuccess = (event) => {
+  open.onsuccess = (event) => {
   const db = event.target.result;
+  if (db.objectStoreNames[0] == undefined) {
+    indexedDB.deleteDatabase('Notes');
+    resolve([]);
+    return;
+  }
   const transaction = db.transaction(["notes"]);
   const object_store = transaction.objectStore("notes");
   const request = object_store.openCursor();
 
-request.onerror = function(event) {
- console.err("error fetching data");
-};
-request.onsuccess = function(event) {
- let cursor = event.target.result;
- if (cursor) {
-     let key = cursor.primaryKey;
-     let value = cursor.value;
-     data.push(makeData(key, value));
-     cursor.continue();
- }
- else {
-  resolve (data);
- }
+  request.onerror = function() {
+  console.err("error fetching data");
   };
-  request.onerror = () => {
-    console.log("Error opening");
-    resolve ("");
-  };
-}
-});
+  request.onsuccess = function(event) {
+  let cursor = event.target.result;
+  if (cursor) {
+      let key = cursor.primaryKey;
+      let value = cursor.value;
+      data.push(makeData(key, value));
+      cursor.continue();
+  }
+  else {
+    resolve (data);
+  }
+    };
+    request.onerror = () => {
+      console.log("Error opening");
+      resolve ("");
+    };
+  }
+  });
 }
   
  function App() {
@@ -81,11 +86,14 @@ request.onsuccess = function(event) {
   const [selectedValue, setSelectedValue] = useState('');
   let length = notes.length;
   useEffect(() => {
-    loadHeandler('general').then((a) => {
-      setAllNotes(a);
-      relevantNotes = a.filter(note => note.value.subject == 'general');
-      getNote(relevantNotes);
-    });
+    loadHeandler('general').then(a => {
+      if(a.length > 0) {
+        setAllNotes(a);
+        relevantNotes = a.filter(note => note.value.subject == 'general');
+        getNote(relevantNotes);
+      }
+      }
+    );
   }, [])
   useEffect(() => {
     if (savedNotes.length > 0 || selectedValue != '') {

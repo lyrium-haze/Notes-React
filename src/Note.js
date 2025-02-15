@@ -32,8 +32,8 @@ function SaveBtn(props) {
     request.onupgradeneeded = (event) => {
       const db = event.target.result;
       const objStore = db.createObjectStore("notes", { autoIncrement: true });
-      let note = {text: props.note.innerText, todoEls: todoArr, todoElsChecked: props.checked, title:props.title.innerText, subject: props.subject};
-      objStore.add(note);
+      // let note = {text: props.note.innerText, todoEls: todoArr, todoElsChecked: props.checked, title:props.title.innerText, subject: props.subject};
+      // objStore.add(note);
     }
     request.onsuccess = (event) => {
       const db = event.target.result;
