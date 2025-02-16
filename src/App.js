@@ -44,15 +44,22 @@ let loadHeandler = function() {
     console.log("Error opening");
     resolve ("");
   };
+  open.onupgradeneeded = (event) => {
+    const db = event.target.result;
+    const objStore = db.createObjectStore("notes", { autoIncrement: true });
+    // let note = {text: props.note.innerText, todoEls: todoArr, todoElsChecked: props.checked, title:props.title.innerText, subject: props.subject};
+    // objStore.add(note);
+  }
   open.onsuccess = (event) => {
   const db = event.target.result;
-  if (db.objectStoreNames[0] == undefined) {
-    indexedDB.deleteDatabase('Notes');
+  const transaction = db.transaction(["notes"]);
+  const object_store = transaction.objectStore("notes");
+  const result = object_store.getAll()
+  result.onsuccess = () => {
+  if (result.result.length == 0) {
     resolve([]);
     return;
   }
-  const transaction = db.transaction(["notes"]);
-  const object_store = transaction.objectStore("notes");
   const request = object_store.openCursor();
 
   request.onerror = function() {
@@ -75,6 +82,7 @@ let loadHeandler = function() {
       resolve ("");
     };
   }
+}
   });
 }
   
